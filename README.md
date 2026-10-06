@@ -1,0 +1,9 @@
+- React ✅
+- Routing ✅
+- Tailwind ✅
+- Zustang
+- Persist state
+- Forms ✅
+- Form Handling - React hook form
+- Add/Update/Delete reminder
+- PWA 
