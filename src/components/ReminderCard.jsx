@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from './button.jsx'
+import Button from './Button.jsx'
 import { Link } from 'react-router-dom'
 import { EDIT_ROUTE } from '../constants/routes.js'
 import useReminderStore from '../store/reminderStore.js'
@@ -15,9 +15,15 @@ const ReminderCard = ({ id, title, date, time, status="PENDING", description, is
     }
 
   }
+  const updateToStatus = (id, status) => {
+    if(confirm(`Are you sure you want to mark this as ${status}?`)) {
+      useReminderStore.getState().updateReminder(id, { status });
+      console.log(`Marked as ${status} and status updated to id = ${id}`);
+    }
+  }
     return (
-    <div className={`shadow rounded-2xl p-6 max-w-2xl ${cardColor}`}>
-        <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center sm:mb-2 gap-x-4'>
+    <div className={`shadow rounded-2xl p-6  ${cardColor}`}>
+        <div className='flex flex-col sm:flex-row sm:justify-between items-start sm:mb-2 gap-x-4'>
             <h2 className='text-3xl font-medium'>{title}</h2>
             <div className='flex gap-2'>
                 <Link to={`edit/${id}`} className='bg-blue-200 hover:bg-blue-100 py-0.5 px-1.5 rounded-md'> ✏️</Link>
@@ -29,7 +35,14 @@ const ReminderCard = ({ id, title, date, time, status="PENDING", description, is
             <span>{date} {time}</span>  
         </div>
         <p className="pb-4">{description}</p>
-        {!isUpcomming && <Button label="Mark as Completed" />}
+        {status == 'Pending' && !isUpcomming && <Button 
+        onClick={() => updateToStatus(id, "Completed")}
+        label="Mark as Completed"
+        type = "Primary"   />}
+        {status == 'Pending' && !isUpcomming && <Button 
+        onClick={() => updateToStatus(id, "CANCELLED")}
+        label="Mark as Cancled"
+        type = "Secondary"   /> }
     </div>
   )
 }

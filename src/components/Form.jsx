@@ -13,8 +13,10 @@ const Form = ( { isEditing=false, reminder }) => {
     );
     
     const submit = (data) => {
+        console.log("data: "+data)
         const reminder = {
             id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
+            createdAt: Date.now(),
             ...data,
         }
 
@@ -82,6 +84,7 @@ const Form = ( { isEditing=false, reminder }) => {
                     {...register("description")}
                     ></textarea>
                 </div>
+                
             </div>
             <div className='mt-4'>                
                 <Button label={isEditing ? "Update Reminder" : "Add Reminder"} />

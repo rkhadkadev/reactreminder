@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { compareAsc, compareDesc } from "date-fns";
 
 const useReminderStore = create(persist((set, get) => ({
     reminders: [],
@@ -22,9 +23,13 @@ const useReminderStore = create(persist((set, get) => ({
     }))
     },
     getAllReminder: () => {
-        return get().reminders;
+        return get().reminders.sort((a, b) => compareDesc(new Date(a.createdAt), new Date(b.createdAt)))
     },
     getReminderByID: (id) => get().reminders.find((reminder) => reminder.id==id),
+
+    getUpcommingReminder: () =>  {
+        return get().reminders.filter(reminder => compareAsc(new Date(reminder.dateTime), new Date(Date.now())) > 0)
+    }
     
 }),{
     name: "reminders",
